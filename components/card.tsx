@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios';
+import Skeleton from 'react-loading-skeleton'
 
 const ShowDetail = () => {
   const [data, setData] = useState();
@@ -13,26 +14,36 @@ const ShowDetail = () => {
     });
   }, []);
 
-  if (loading) {
-    return <p>Loading</p>;
-  }
+
+  // if (loading) {
+  //   return <p>Loading</p>;
+  // }
 
   if (data === undefined) {
     return <p>Data is undefined</p>;
   }
   let regex = new RegExp('https:\/\/pokeapi\.co\/api\/v2\/pokemon\/(.*)\/')
-  let result = regex.exec(`https://pokeapi.co/api/v2/pokemon/104/`)
-  console.log(result)
+  // let result = regex.exec(`${data.results.url}`)
+  // console.log(result)
   return (
     <>
-    <div className="m-auto text-center">
-      <div className="grid grid-cols-6 gap-4">
-        {data.results.map((item) =>
+    <div className="text-center my-16">
+      <p className="text-lg">POKEMON</p>
+    </div>
+    <div className="m-auto text-center max-w-6xl">
+      <div className="grid grid-cols-6 gap-6">
+        {data.results.map((item) =>  
           <div>
             <div className="flex justify-center items-center">
-            <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${result[1]}.png`}/>
+            {loading && (
+                        <Skeleton
+                        />
+                    )}
+              <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${(regex.exec(`${item.url}`))[1]}.png`} style={{ display: loading ? 'none' : undefined }}/>
             </div>
-            <p>{item.name}</p>
+            <div>
+              <p className="bg-green-200 rounded rounded-md">{loading ? <Skeleton /> : item.name}</p>
+            </div>
           </div>
         )
         }
