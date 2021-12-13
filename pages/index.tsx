@@ -1,41 +1,13 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import Pokemon, { IPokemon } from '../components/pokemon'
-import PokemonSkeletonLoading from '../components/pokemon-skeleton-loading';
-
-interface PokemonResponse {
-  count: number;
-  next: string;
-  previous: null;
-  results: IPokemon[];
-}
-
 const Home = () => {
-  const [data, setData] = useState<PokemonResponse>();
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    axios.get<PokemonResponse>('https://pokeapi.co/api/v2/pokemon?limit=104').then((response) => {
-      setData(response.data);
-      setLoading(false);
-    });
-  }, []);
-
   return (
-    <>
-    <div className="text-center my-16">
-      <p className="text-lg">POKEMON</p>
-    </div>
-    <div className="m-auto text-center max-w-6xl mb-20">
-      <div className="grid grid-cols-6 gap-6">
-        {loading && (
-          Array(60).fill(null).map((_, index) => <PokemonSkeletonLoading key={index} />)
-          )}
-        {data?.results.map(item => <Pokemon key={item.name} {...item}/>)}
+    <div className="mx-auto text-center" style={{width: '500px'}}>
+      <div className="mt-4">
+        <img src="resume.png"/>
+      </div>
+      <div className="my-2">
+        <a href="https://www.canva.com/design/DAEeKsudVYo/AYV7sZIIbiKW4kE_QUMCUQ/view?utm_content=DAEeKsudVYo&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton">go to my resume</a>
       </div>
     </div>
-    </>
   )
 }
 
